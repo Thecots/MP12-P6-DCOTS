@@ -27,9 +27,7 @@ app.get("/user", (req, res) => {
       password: bcrypt.hashSync(body.password, 10),
     });
   
-    //   if (!bcrypt.compareSync(body.password, "asdf")) {
-    //     console.log("el password és ASDF");
-    //   }
+
   
     user.save((err, userDB) => {
       if (err) {
@@ -46,5 +44,26 @@ app.get("/user", (req, res) => {
     });
   });
   
+  app.put("/user",async(req,res) => {
+    const {username, email, password} = req.body
+
+    const user = new User({username,email,password});
+      
+    user.save((err,userDB) => {
+
+    })
+
+      
+  })
+
+  app.delete("/user",(req,res) => {
+    res.json({
+      ok: true,
+      name,
+      email,
+      password
+
+    })
+  })
   module.exports = app;
   
