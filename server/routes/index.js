@@ -7,5 +7,6 @@ app.get('/',(req,res)=> {
 
 app.use(require("./users"));
 app.use(require("./clients"));
+app.use(require("./serveis"));
 
 module.exports = app;

@@ -11,12 +11,10 @@ let clientSchema = new Schema({
   },
   name: {
     type: String,
-    unique: true,
     required: [true, "El nom d'usuari és obligatori"],
   },
   lastname: {
     type: String,
-    unique: true,
     required: [true, "Els cognoms son obligatoris"],
   },
   email: {
