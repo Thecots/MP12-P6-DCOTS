@@ -8,6 +8,7 @@ const app = express.Router();
 /* get */
 app.post("/login", (req, res) => {
    let body = req.body;
+   console.log(body);
    User.findOne({username: body.username}, (err, userDB) =>{
        if(err){
            return res.status(500).json({

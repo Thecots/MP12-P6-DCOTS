@@ -36,7 +36,7 @@ function error(type,e,t){
 }
 
 /* On click  "Crear cuenta" redirect to signiup*/
-function iniciarSession(){
+const iniciarSession = () =>{
     setloadbar(true);
     restartErrors();
     let elements = document.getElementById("formIn").elements;
@@ -54,17 +54,43 @@ function iniciarSession(){
         return 0;
     }
 
-    var obj = {username: u, password:p};
-    //let tojson = JSON.stringify(obj);
+    var obj = {
+        username: u,
+        password: p
+    };
+
+    const headers = new Headers();
+    headers.append("content-Type","application/x-www-form-urlencoded");
+    const body = new URLSearchParams();
+    body.append("username",u);
+    body.append("password",p);
 
 
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Sesión iniciada',
-        showConfirmButton: false,
-        timer: 2500
-      })
+    fetch(
+        '/login',
+        {
+            method: 'POST',
+            headers,
+            body,
+        }
+    )
+        .then(res => res.json())
+        .then(res => {
+            if(res.ok){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Sesión iniciada',
+                    showConfirmButton: false,
+                    timer: 2500
+                  })
+            }else{
+                error("password",true,res.err.message);
+                passwordInput.classList.add('error');
+            }
+        })
+
+   
 
 
     setloadbar(false);
