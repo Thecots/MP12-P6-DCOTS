@@ -3,10 +3,10 @@ const app = express.Router();
 
 
 app.get('/',(req,res)=> {
-    res.render('index');
+    res.render('login');
 })
 
-app.get('/login',(req,res)=> {
+app.get('/',(req,res)=> {
     res.render('login');
 })
 
