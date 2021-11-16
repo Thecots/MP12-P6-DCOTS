@@ -1,11 +1,12 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
+const { verificaToken, verificaAdminRole } = require("../middlewares/auth");
 const app = express();
 
 /* get */
-app.get("/user", (req, res) => {
-  User.find().exec((err, usuaris) => {
+app.get("/user", [verificaToken, verificaAdminRole], (req, res) => {
+  User.find({}, "username email role").exec((err, usuaris) => {
     if (err) {
       return res.status(400).json({
         ok: false,
@@ -26,6 +27,7 @@ app.put("/user", (req, res) => {
     username: body.username,
     email: body.email,
     password: bcrypt.hashSync(body.password, 10),
+    role: body.role
   });
 
   user.save((err, userDB) => {
@@ -44,7 +46,7 @@ app.put("/user", (req, res) => {
 
 
 /* delete */
-app.delete("/user",(req,res) => {
+app.delete("/user", [verificaToken, verificaAdminRole],(req,res) => {
   User.deleteOne({_id: req.body.id}, (err) => {
     if (err) {
       return res.status(400).json({

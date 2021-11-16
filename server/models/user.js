@@ -23,6 +23,11 @@ let userSchema = new Schema({
     type: String,
     required: [true, "La contrasenya és obligatoria"],
   },
+  role:{
+    type: String,
+    default: "USER_ROLE",
+    enum: rolesValids
+  }
 });
 
 userSchema.methods.toJSON = function () {

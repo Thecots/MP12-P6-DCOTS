@@ -3,6 +3,7 @@ require('dotenv').config();
 require('colors');
 const express = require('express');
 const mongoose = require('mongoose');
+const exphbs = require("express-handlebars");
 const path = require('path');
 
 const app = express();
@@ -12,6 +13,19 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, "public")));
+
+// handlebars
+app.set("views", path.join(__dirname, "views"));
+app.engine(
+  ".hbs",
+  exphbs({
+    defaultLayout: "main",
+    extname: ".hbs",
+    partialsDir: __dirname + "/views/layouts",
+  })
+);
+app.set("view engine", ".hbs");
 
 // routes
 app.use(require('./routes/index'));
