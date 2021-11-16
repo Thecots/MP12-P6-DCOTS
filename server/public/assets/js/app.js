@@ -66,6 +66,7 @@ const iniciarSession = () =>{
     body.append("password",p);
 
 
+
     fetch(
         '/login',
         {
@@ -77,6 +78,9 @@ const iniciarSession = () =>{
         .then(res => res.json())
         .then(res => {
             if(res.ok){
+                const myHeaders = new Headers();
+                myHeaders.append("X-Access-Token", res.token);
+                console.log(myHeaders.get("X-Access-Token"));
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
