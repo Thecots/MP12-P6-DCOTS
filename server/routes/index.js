@@ -5,15 +5,17 @@ const { verificaToken2, verificaAdminRole2 } = require("../middlewares/auth2");
 
 
 app.get('/',(req,res)=> {
-    res.render('login');
+    res.render('login',{
+        loginJS: true
+    });
 })
 
 app.get('/',(req,res)=> {
     res.render('login');
 })
 
-app.get('/home',[verificaToken2], (req,res)=>{
-    res.render('home')
+app.get('/admin', (req,res)=>{
+    res.render('admin');
 })
 
 app.use(require("./users"));

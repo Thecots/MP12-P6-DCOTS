@@ -4,6 +4,7 @@ const spanErrorUsername = document.querySelector('#sessionErrorUsername');
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const confirmInput = document.getElementById("confirm") ;
+var myHeaders = new Headers();
 
 const AlertIcon = '<svg aria-hidden="true" class="stUf5b LxE1Id" fill="currentColor" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>'
 
@@ -78,25 +79,29 @@ const iniciarSession = () =>{
         .then(res => res.json())
         .then(res => {
             if(res.ok){
-                const myHeaders = new Headers();
-                myHeaders.append("X-Access-Token", res.token);
-                console.log(myHeaders.get("X-Access-Token"));
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Sesión iniciada',
-                    showConfirmButton: false,
-                    timer: 2500
+                myHeaders.set('X-Access-Token', res.token);
+
+
+
+                Swal.fire('hola')
+                .then((result) => {
+                    Swal.fire('Saved!', '', 'success')
+                  }).then(()=>{
+                    if(res.usuari.role == 'ADMIN_ROLE'){
+                        window.location.href = "/admin"
+                    }else{
+                        window.location.href = "/inicio";
+                    } 
                   })
+                  
+
+                
+                console.log('hola');
             }else{
                 error("password",true,res.err.message);
                 passwordInput.classList.add('error');
             }
         })
-
-   
-
-
     setloadbar(false);
 }
 
@@ -121,3 +126,6 @@ function showPasword(){
         document.getElementById('passwd2').type = 'password';
     }
 }
+
+
+
