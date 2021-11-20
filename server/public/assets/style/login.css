@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
 
+:root{
+    --c-error: #f12020;
+    --c-default-blue: #5a72fd;
+    --c-secundari-blue: #3a57fa;
+    --c-white:#fff;
+    --c-border: #dadce0;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -8,21 +16,20 @@
     font-family: 'Montserrat',sans-serif;
     font-size: 16px;
 }
-
 body{
-    background: #dae0e6;
+    background-color: var(--c-white);
 }
 
 section{
-    margin-top: 5%;
-
+    width: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: .625rem;
 }
 
-/* Sign box*/
+/* ----- sign box -----*/
 .signBox{
     position: sticky;
     width: 30rem;
@@ -31,23 +38,18 @@ section{
     height: auto;
     border-radius: .3125rem;
     padding: 4.5rem 1.5rem;
-    background-color: #fff;
+    background-color: var(--c-white);
     box-shadow: 0 0 .9375rem #00000005;
-    border: .0625rem solid #dadce0;
+    border: .0625rem solid var(--c-border);
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 10;
 }
 
-/* Cajas donde está el input y el label */
-.signBox .passwords{
-    display: flex;
-    gap: 10px;
-}
-
-/* Searching */
+/* ----- loading bar ----- */
 .signBox .loadBar{
     position: absolute;    
     width: 100%;
@@ -55,7 +57,6 @@ section{
     top: 0;
     left: 0;
 }
-
 .signBox .loadBar::after{
     content: "";
     width: 8.25rem;
@@ -63,8 +64,7 @@ section{
     background:rgba(65, 105, 225, 0.377);
     animation: loadBar 0.6s infinite linear;
 }
-
- @keyframes loadBar{
+@keyframes loadBar{
     0%{
         margin-left: 0;
     }
@@ -72,145 +72,128 @@ section{
         margin-left: 150%;
     }
 } 
-
 .signBox > h1{
     font-weight: 400;
     font-size: 2rem;
     margin-bottom: 2rem;
 }
 
-/* Input Box */
-.inputBox{
-    width: 100%;
+/* ----- buttons ----- */
+.btn-box{
+    margin: 25px 0 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.btn-box button{
+    padding: .5rem 1.5625rem;
+    border: none;
+    cursor: pointer;
+    background-color: var(--c-white);
+    border-radius: .2525rem;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+.btn-box button:first-child{
+    color: var(--c-default-blue);
+}
+.btn-box button:first-child:hover{
+    background-color: var(--c-default-blue)1a;
+}
+.btn-box button:last-child{
+    background-color: var(--c-default-blue);
+    color:var(--c-white);
+}
+.btn-box button:last-child:hover{
+    background-color: var(--c-secundari-blue);
 }
 
+/* ----- error text ----- */
+.spanError{
+    display: none;
+    gap: 5px;
+    color: var(--c-error);
+    margin-bottom: 5px;
+}
+
+/* ----- checkbox mostrar contraseña -----  */
+.showPassword{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.showPassword input, label{
+    width: auto;
+    cursor: pointer;
+    user-select: none; 
+}
+.showPassword input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    padding: 5px;
+}
+
+/* ----- text-field box ----- */
+.inputBox{
+    width: 100%;
+    overflow-x: none;
+}
 .inputBox form{
     height: auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
+/* passwords box*/
+.signBox .passwords{
+    display: flex;
+    gap: 10px;
+}
 
-/* input */
-
+/* ----- text-field input/textarea -----*/
 .text-field {
     position: relative;
     margin: .625rem 0rem;
     width: 100%;
 }
-
-input {
+.text-field input, .text-field textarea {
     width: 100%;
     outline: none;
-    border: thin solid #dadce0;
+    border: thin solid var(--c-border);
     color: rgb(0, 0, 0);
     padding: .725rem .3125rem;
     border-radius: .3125rem;
 }
-
-input:focus {
-    border:  .125rem solid #5a72fd;
-    background-color:#fff;
+.text-field textarea {
+    resize: none;
+    height: 200px;
 }
-
-.label {
+.text-field input:focus, .text-field textarea:focus{
+    box-shadow:  0 0 0 .125rem  var(--c-default-blue);
+    background-color:var(--c-white);
+}
+.text-field input:focus ~ .label, .text-field input:valid ~ .label,
+.text-field textarea:focus ~ .label, .text-field textarea:valid ~ .label {
+    top: -0.625rem;
+    left: .625rem;
+    font-size: .9375rem;
+    background-color:var(--c-white);
+    padding:0 .125rem 0 .3125rem;
+}
+.text-field.error input, .text-field.error textarea {
+    border: thin solid var(--c-error);
+}
+.text-field.error input:focus, .text-field.error textarea:focus {
+    box-shadow:  0 0 0 .125rem var(--c-error);
+}
+.text-field.error .label, .text-field.error input:focus ~ .label,
+.text-field.error textarea:focus ~ .label{
+    color: red !important;
+}
+.text-field .label {
     color: #999;
     position: absolute;
     pointer-events: none;
     left: .625rem;
     top: .725rem;
     transition: 0.2s;
-}
-
-input:focus ~ .label, input:valid ~ .label {
-    top: -0.625rem;
-    left: .625rem;
-    font-size: .9375rem;
-    background-color:#fff;
-    padding:0 .125rem 0 .3125rem;
-}
-
-input:focus ~ .label{
-    color: #5a72fd !important;
-}
-
-input:valid ~ .label{
-    color: #999;
-}
-
-.error input {
-    border: thin solid rgb(241, 32, 32);
-}
-    .error input:focus {
-        border:  .125rem solid rgb(241, 32, 32);
-    }
-.error .label {
-    color: red !important;
-}
-    .error input:focus ~ .label{
-        color: red !important;
-    }
-
-
-/* Buttons box */
-
-.btn-box{
-    margin: 25px 0 5px 0;
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-box button{
-    padding: .5rem 1.5625rem;
-    border: none;
-    cursor: pointer;
-    background-color: #fff;
-    border-radius: .2525rem;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.btn-box button:first-child{
-    color: #5a72fd;
-}
-    .btn-box button:first-child:hover{
-        background-color: #5a72fd1a;
-    }
-
-.btn-box button:last-child{
-    background-color: #5a72fd;
-    color: white;
-}
-.btn-box button:last-child:hover{
-    background-color: #3a57fa;
-}
-
-/* Error */
-
-.spanError{
-    display: none;
-    gap: 5px;
-    color: rgb(241, 32, 32);
-    margin-bottom: 5px;
-}
-
-/* Cheeck box show password  */
-.showPassword{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.showPassword input{
-    width: auto;
-}
-
-.showPassword input, label{
-    cursor: pointer;
-    user-select: none;
-}
-
-input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    padding: 5px;
 }

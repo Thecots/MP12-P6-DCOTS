@@ -2,11 +2,19 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const app = express.Router();
+const router = express.Router();
+
+
+
+router.get("/", (req, res) => {
+    res.render("login");
+  });
+  
+
 
 
 /* get */
-app.post("/login", (req, res) => {
+router.post("/login", (req, res) => {
    let body = req.body;
    User.findOne({username: body.username}, (err, userDB) =>{
        if(err){
@@ -52,4 +60,4 @@ app.post("/login", (req, res) => {
    })
 });
 
-module.exports = app;
+module.exports = router;

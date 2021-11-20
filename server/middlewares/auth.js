@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const decode = require('jsonwebtoken/decode');
 
 let verificaToken = (req, res, next) => {
+    console.log(req.headers.cookie);
     let userToken = req.get("X-Access-Token");
     jwt.verify(userToken, process.env.SEED, (err, decoded) => {
         if(err){
