@@ -11,6 +11,8 @@ router.get("/", (req, res) => {
 /* get */
 router.post("/login", (req, res) => {
   let body = req.body;
+  console.log(req.body);
+
   User.findOne({ username: body.username }, (err, userDB) => {
     if (err) {
       return res.status(500).json({
