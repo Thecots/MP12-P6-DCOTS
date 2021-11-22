@@ -5,4 +5,8 @@ router.get("/", (req, res) => {
   res.render("login");
 });
 
+router.get("/admin", (req, res) => {
+  res.send("hola");
+});
+
 module.exports = router;
