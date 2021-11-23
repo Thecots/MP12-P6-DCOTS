@@ -88,18 +88,16 @@ const iniciarSession = () =>{
         .then(res => res.json())
         .then(res => {
             if(res.ok){
-                Swal.fire('hola')
-                .then((result) => {
-                    Swal.fire('Saved!', '', 'success')
-                  }).then(()=>{
-                    if(res.usuari.role == 'ADMIN_ROLE'){
-                        window.location.href = "/admin"
-                    }else{
-                        window.location.href = "/inicio";
-                    } 
-                  })
-                   
-                console.log('hola');
+                var myHeaders = new Headers();
+                myHeaders.append('X-Access-Token', res.token);
+                myHeaders.get('X-Access-Token')
+                
+                debugger;
+                if(res.usuari.role == 'ADMIN_ROLE'){
+                    window.location.href = "/admin"
+                }else{
+                    window.location.href = "/inicio";
+                }                    
             }else{
                 error("password",true,res.err.message);
                 passwordInput.classList.add('error');
