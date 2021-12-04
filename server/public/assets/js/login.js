@@ -92,12 +92,8 @@ const iniciarSession = () => {
     .then((res) => res.json())
     .then((res) => {
       if (res.ok) {
-        localStorage.setItem("X-Access-Token", JSON.stringify(res.token));
-        if (res.usuari.role == "ADMIN_ROLE") {
-          window.location.href = "/admin";
-        } else {
-          window.location.href = "/home";
-        }
+        document.cookie =`session=${res.token}; expires=${9999999}; path=/`;
+        window.location.href = "/admin"
       } else {
         error("password", true, res.err.message);
         passwordInput.classList.add("error");
