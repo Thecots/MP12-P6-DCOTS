@@ -1,41 +1,53 @@
 const jwt = require('jsonwebtoken');
 const decode = require('jsonwebtoken/decode');
 
-var cookieParser = require('cookie-parser')
-
+/* Verifica que está logeado */
 let verificaToken = (req, res, next) => {
-    console.log(req.cookies.session);
-    let userToken = req.cookies.session;
-
-
-    jwt.verify(userToken, process.env.SEED, (err, decoded) => {
+    jwt.verify(req.cookies.session, process.env.SEED, (err, decoded) => {
         if(err){
-            return res.redirect("/");/* res.status(401).json({
-                of:false,
-                err:{
-                    message: "Token no vàlid"
-                }
-            }); */
+            return res.redirect("/");
         };
         req.usuari = decoded.usuari;
         next();
     })
 };
 
+/* Verifica que és administrador */
 let verificaAdminRole=(req,res,next) => {
     let usuari = req.usuari;
     if(usuari.role !== "ADMIN_ROLE"){
-        return res.redirect("/") /* res.status(401).json({
-            ok:false,
-            err:{
-                message: "No autoritzat"
-            }
-        }) */
+        return res.redirect("/")
     }
     next();
 }
 
+/* Verifica que no está logeado */
+let verificaTokenLogin = (req, res, next) => {
+    jwt.verify(req.cookies.session, process.env.SEED, (err, decoded) => {
+        if(err){
+            return next();
+        };
+        res.redirect("/");
+    })
+};
+
+/* get role */
+let getRole = (req) => {
+    try {
+        if(decode(req.cookies.session)['usuari']['role'] === "ADMIN_ROLE"){
+            return {user: true, admin: true};
+        }else{
+            return {user: true, admin: false};
+        }
+    } catch (error) {
+        return {user: false, admin: false};
+    }
+}
+
+
 module.exports= {
     verificaToken,
-    verificaAdminRole
+    verificaAdminRole,
+    verificaTokenLogin,
+    getRole
 }

@@ -1,10 +1,18 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const decode = require('jsonwebtoken/decode');
+const {getRole} = require("./../middlewares/auth");
 const router = express.Router();
+router.use(cookieParser())
 
-router.get("/", (req, res) => {
-  res.render("user");
+router.get("/", async (req, res) => {
+  role = getRole(req)
+  res.render("home",
+  {
+    session: role.user,
+    role: role.admin,
+    home: true
+  });
 });
 
 

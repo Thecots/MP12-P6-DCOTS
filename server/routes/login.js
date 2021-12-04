@@ -2,16 +2,19 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const {verificaTokenLogin} = require('./../middlewares/auth')
+const cookieParser = require("cookie-parser");
 const router = express.Router();
+router.use(cookieParser())
 
 
-
-router.get("/login", (req, res) => {
-  res.render("login");
+/* GET */
+router.get("/login",verificaTokenLogin, (req, res) => {
+  res.render("login",{login: true});
 });
 
-/* get */
-router.post("/login", (req, res) => {
+/* POST */
+router.post("/login",verificaTokenLogin, (req, res) => {
   let body = req.body;
   console.log(req.body);
 

@@ -21,7 +21,7 @@ app.get("/user", [verificaToken, verificaAdminRole], (req, res) => {
 });
   
 /* put */
-app.put("/user", [verificaToken, verificaAdminRole], (req, res) => {
+app.put("/user", (req, res) => {
   let body = req.body;
   let user = new User({
     username: body.username,
@@ -43,7 +43,6 @@ app.put("/user", [verificaToken, verificaAdminRole], (req, res) => {
     });
   });
 });
-
 
 /* delete */
 app.delete("/user", [verificaToken, verificaAdminRole],(req,res) => {

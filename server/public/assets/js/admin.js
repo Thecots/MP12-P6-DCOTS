@@ -1,26 +1,14 @@
-const headers = new Headers();
-headers.append("content-Type", "application/x-www-form-urlencoded");
-headers.append(
-  "X-Access-Token",
-  JSON.parse(localStorage.getItem("X-Access-Token"))
-);
 
-fetch("/admin", {
-  method: "POST",
-  headers,
-})
-  .then((res) => res.json())
-  .then((res) => {
-    if (!res.ok) {
-      window.location.href = "/";
-    } else {
-      if (!res.admin) {
-        window.location.href = "/home";
-      }
-    }
-  });
+/* open/close menu */
+const menu = (e) =>{
+    document.querySelector('#menuicon').classList.toggle("hidden");
+    document.querySelector('#crossicon').classList.toggle("hidden");
+    document.querySelector('menu').classList.toggle("menuclass");
+    if(e == true){localStorage.setItem('menu', x= localStorage.getItem("menu") == 1 ? 0 : 1);}
+}
+if(localStorage.getItem("menu") == 1){menu(false)}
 
-document.querySelector("button").addEventListener("click", () => {
-  localStorage.removeItem("X-Access-Token");
-  window.location.href = "/";
-});
+
+/* event listeners */
+document.querySelector('#menuicon').addEventListener('click', () => {menu(true)});
+document.querySelector('#crossicon').addEventListener('click', () => {menu(true)});
