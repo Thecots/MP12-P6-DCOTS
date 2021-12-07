@@ -3,6 +3,43 @@
         <div class="title">
             <h1>Comentarios</h1>
         </div>
+        <div class="table">
+            <table id="myTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Articulo</th>
+                        <th>Usuario</th>
+                        <th>comentario</th>
+                        <th>Día</th>
+
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each json}}
+                    <tr>
+                        <td>{{this.article.title}}</td>
+                        <td>{{this.comment.author}}</td>
+                        <td>{{this.comment.comment}}</td>
+                        <td>{{this.comment.date}}</td>
+                        <td class="btnTable"><a href="/articulos:{{this.comment.id}}"><img
+                                    src="assets/img/delete.png"></a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+        </div>
     </section>
 </main>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "order": [[3, "desc"]],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            },
+        });
+    });
+</script>
 <script src="assets/js/admin.js"></script>

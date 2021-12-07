@@ -1,6 +1,3 @@
-{{#if login}}
-
-{{else}}
 <header>
     {{#if admin}}
     <img src="assets/img/menu.png" class="menuiconactive hidden" id="crossicon">
@@ -9,17 +6,19 @@
     <h1><span>S</span>RCOTS</h1>
     {{/if}}
     <ul>
-        <li><a href="./" {{#if home}} class="active" {{/if}}>HOME</a></li>
+        <li><a href="/" {{#if home}} class="active" {{/if}}>HOME</a></li>
         {{!-- admin/user --}}
         {{#if role}}
-        <li><a href="./admin" {{#if admin}} class="active" {{/if}}>DASHBOARD</a></li>
+        <li><a href="/admin" {{#if admin}} class="active" {{/if}}>DASHBOARD</a></li>
         {{/if}}
         {{!-- login / cerrar sesión --}}
         {{#if session}}
         <li><a href="#" id="cerrarSesion">CERRAR SESIÓN</a></li>
         {{else}}
-        <li><a href="./login">LOGIN</a></li>
+        {{#if login}}
+        {{else}}
+        <li><a href="/login">LOGIN</a></li>
         {{/if}}
     </ul>
+    {{/if}}
 </header>
-{{/if}}

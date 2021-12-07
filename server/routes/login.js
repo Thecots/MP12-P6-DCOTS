@@ -16,8 +16,6 @@ router.get("/login",verificaTokenLogin, (req, res) => {
 /* POST */
 router.post("/login",verificaTokenLogin, (req, res) => {
   let body = req.body;
-  console.log(req.body);
-
   User.findOne({ username: body.username }, (err, userDB) => {
     if (err) {
       return res.status(500).json({

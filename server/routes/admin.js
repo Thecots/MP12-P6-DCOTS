@@ -4,16 +4,43 @@ const cookieParser = require("cookie-parser");
 const {getRole} = require("./../middlewares/auth");
 const router = express.Router();
 router.use(cookieParser())
+const Article = require("../models/article");
+const User = require("../models/user");
+
 
 /* inicio */
 router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
   role= getRole(req);
-  res.render("admin",
-  {
-    session: role.user,
-    role: role.admin,
-    admin: true,
-    inicio: true
+
+  Article.find({},(err,countA)=>{
+    let countC = countV = 0;
+    if(err){countA = 0}
+    /* contar visitas */
+    countA.forEach(n =>{
+      countV += n.views;
+    });
+    countA = countA.length;
+    Article.find({"comments":{"$exists":true}},(err,x)=>{
+      /* contar comentarios */
+      x.forEach(n =>{
+        n.comments.forEach(e=>{
+          countC += 1;
+        })
+      });   
+      User.count({},(err,countU)=>{
+        if(err){countU = 0}
+        res.render("admin",{
+          session: role.user,
+          role: role.admin,
+          admin: true,
+          inicio: true,
+          countA,
+          countC,
+          countU,
+          countV,
+        });
+      });
+    });
   });
 });
 
@@ -32,7 +59,7 @@ router.get("/usuarios",[verificaToken,verificaAdminRole], async(req, res) => {
     session: role.user,
     role: role.admin,
     admin: true,
-    usuarios: true
+    usuarios: true,
   });
 });
 module.exports = router;

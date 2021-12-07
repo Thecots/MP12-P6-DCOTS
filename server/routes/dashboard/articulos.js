@@ -7,20 +7,34 @@ const router = express.Router();
 router.use(cookieParser())
 
 /* GET */
-router.get("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
-  role= getRole(req);
-  res.render("adminArticulos",
-  {
-    session: role.user,
-    role: role.admin,
-    admin: true,
-    articulos: true
+router.get("/articulos",[verificaToken,verificaAdminRole], (req, res) => {
+  Article.find({},"_id title author views date comments").exec((err, article) => {
+    let template = [];
+    article.forEach(n => {    
+      var d = new Date(n.date);
+      template.push({
+        title: n.title,
+        author: n.author,
+        views: n.views,
+        date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
+        id: n._id,
+        comments: n.comments.length
+      })
+    });
+    role= getRole(req);
+    res.render("adminArticulos",
+    {
+      session: role.user,
+      role: role.admin,
+      admin: true,
+      articulos: true,
+      json: template
+    });
   });
 });
 
 /* POST */
 router.post("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
-    console.log(1);
     Article.find().exec((err, article) => {
         if (err) {
           return res.status(400).json({
@@ -75,4 +89,5 @@ router.delete("/articulos", [verificaToken, verificaAdminRole],(req,res) => {
     });
 })
     
+
 module.exports = router;

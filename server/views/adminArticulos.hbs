@@ -4,54 +4,48 @@
             <h1>Articulos</h1>
         </div>
         <div class="table">
-            <table id="example" class="display" style="width:100%">
+            <table id="myTable" class="display" style="width:100%">
                 <thead>
                     <tr>
                         <th>Titulo</th>
-                        <th>Autor</th>
+                        <th>Comentarios</th>
                         <th>Visitas</th>
+                        <th>Autor</th>
                         <th>Data</th>
+                        <th>Ver</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tbody>
+                    {{#each json}}
                     <tr>
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Visitas</th>
-                        <th>Data</th>
+                        <td>{{this.title}}</td>
+                        <td>{{this.comments}}</td>
+                        <td>{{this.views}}</td>
+                        <td>{{this.author}}</td>
+                        <td>{{this.date}}</td>
+                        <td class="btnTable"><a href="/home/{{this.id}}"><img src="assets/img/eye.png"></a></td>
+                        <td class="btnTable"><a href="/articulos:{{this.id}}"><img src="assets/img/edit.png"></a></td>
+                        <td class="btnTable"><a href="/articulos:{{this.id}}"><img src="assets/img/delete.png"></a></td>
                     </tr>
-                </tfoot>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
     </section>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    var settings = {
-        "url": "/articulos",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-            "MoodleSession": "g006bqvuatr45bkclpie79o1l6",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Cookie": getCookie("session")
-        }
-    };
 
     $(document).ready(function () {
-
-    });
-
-    $.ajax(settings).done(function (response) {
-        $('#example').DataTable({
-            "ajax": response
+        $('#myTable').DataTable({
+            "order": [[4, "desc"]],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            },
         });
-    })
+    });
 </script>
 <script src="assets/js/admin.js"></script>

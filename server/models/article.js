@@ -6,12 +6,10 @@ let Schema = mongoose.Schema;
 let articleSchema = new Schema({
   title: {
     type: String,
-    unique: true,
     required: [true, "El titulo es obligatorio"],
   },
   content: {
     type: String,
-    unique: true,
     required: [true, "El contenido es obligatorio"],
   },
   author: {
@@ -25,6 +23,10 @@ let articleSchema = new Schema({
   views: {
     type: Number,
     default: 0
+  },
+  comments: {
+    type: Array,
+    default: []
   }
 });
 
@@ -37,3 +39,4 @@ articleSchema.methods.toJSON = function () {
 articleSchema.plugin(uniqueValidator, { message: "{PATH} debe ser único" });
 
 module.exports = mongoose.model("Article", articleSchema);
+

@@ -19,6 +19,7 @@ app.engine(
   exphbs({
     defaultLayout: "main",
     extname: ".hbs",
+    layoutsDir: __dirname + "/views/layouts",
     partialsDir: __dirname + "/views/layouts",
   })
 );
@@ -37,6 +38,7 @@ mongoose.connect(process.env.URLDB,{ useUnifiedTopology: true, useNewUrlParser: 
     if(err) throw err;
     console.log(`data base ${res.connections[0].name} online, port: ${res.connections[0].port}`.cyan);
 })
+
 
 app.listen(process.env.PORT,() =>{
     console.log(`http://localhost:${process.env.PORT}`.green);
