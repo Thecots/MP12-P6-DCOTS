@@ -5,6 +5,7 @@ const {getRole} = require("./../middlewares/auth");
 const router = express.Router();
 router.use(cookieParser())
 const Article = require("../models/article");
+const Comment = require("../models/comment");
 const User = require("../models/user");
 
 
@@ -20,13 +21,9 @@ router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
       countV += n.views;
     });
     countA = countA.length;
-    Article.find({"comments":{"$exists":true}},(err,x)=>{
+    Comment.count({},(err,countC)=>{
       /* contar comentarios */
-      x.forEach(n =>{
-        n.comments.forEach(e=>{
-          countC += 1;
-        })
-      });   
+      
       User.count({},(err,countU)=>{
         if(err){countU = 0}
         res.render("admin",{

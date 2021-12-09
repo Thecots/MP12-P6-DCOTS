@@ -3,23 +3,27 @@ const {verificaToken, verificaAdminRole} = require('./../../middlewares/auth')
 const cookieParser = require("cookie-parser");
 const {getRole} = require("./../../middlewares/auth");
 const Article = require("../../models/article");
+const Comment = require("../../models/comment");
 const router = express.Router();
 router.use(cookieParser())
 
 /* GET */
 router.get("/articulos",[verificaToken,verificaAdminRole], (req, res) => {
-  Article.find({},"_id title author views date comments").exec((err, article) => {
+  Article.find({},"_id title author views date").exec((err, article) => {
     let template = [];
-    article.forEach(n => {    
+    article.forEach(n =>  { 
+      let a = Comment.find({idArticle:n._id.valueOf()},(err,r)=>{ return r.length;});
+      console.log(a);
+
       var d = new Date(n.date);
       template.push({
-        title: n.title,
-        author: n.author,
-        views: n.views,
-        date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
-        id: n._id,
-        comments: n.comments.length
-      })
+      title: n.title,
+      author: n.author,
+      views: n.views,
+      date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
+      id: n._id,
+      comments: 0
+    });
     });
     role= getRole(req);
     res.render("adminArticulos",

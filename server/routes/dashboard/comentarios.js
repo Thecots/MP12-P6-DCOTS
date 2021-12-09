@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const decode = require('jsonwebtoken/decode');
 const {getRole} = require("./../../middlewares/auth");
 const Article = require("../../models/article");
+const Comment = require("../../models/comment");
 const { send } = require("express/lib/response");
 const router = express.Router();
 router.use(cookieParser())
@@ -56,14 +57,24 @@ router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => 
 });
 
 router.put("/comentarios",[verificaToken], async(req, res) => {
-  Article.updateOne({_id:req.body.id},{$push:{comments: {id: uuidv4(), author: req.body.author, comment: req.body.comment,date: new Date()}}},(err)=>{
-    if(err){
+  let comment = new Comment(
+    {
+      comment: req.body.comment,
+      author: req.body.author,
+      idArticle: req.body.idArticle,
+    }
+  );
+
+  comment.save((err, commentDB) => {
+    if (err) {
       return res.status(400).json({
         ok: false,
+        err,
       });
     }
     res.json({
       ok: true,
+      user: commentDB,
     });
   });
 });
@@ -71,7 +82,7 @@ router.put("/comentarios",[verificaToken], async(req, res) => {
 
 /* POST */
 router.post("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
-    let s = await Article.findById('61ad0d60e2832b790d68af94');
+    let s = await Comment.findById('61b0c39485a2b06093d43c51').count();
 
     console.log(s);
 });
