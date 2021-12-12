@@ -144,3 +144,15 @@ tbody td a img{
 .btnTable{
     width: 50px;
 }
+
+@media only screen and (max-width: 850px) {
+    menu{
+        width: 50px !important;
+    }
+    .menuiconactive {
+        display: none;
+    }
+    header{
+        justify-content: flex-end;
+    }
+  }

@@ -39,7 +39,6 @@ mongoose.connect(process.env.URLDB,{ useUnifiedTopology: true, useNewUrlParser: 
     console.log(`data base ${res.connections[0].name} online, port: ${res.connections[0].port}`.cyan);
 })
 
-
 app.listen(process.env.PORT,() =>{
     console.log(`http://localhost:${process.env.PORT}`.green);
 })

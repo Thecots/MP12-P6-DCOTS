@@ -60,14 +60,3 @@ header img{
     border-radius: 50px;
 }
 
-@media only screen and (max-width: 850px) {
-    menu{
-        width: 50px !important;
-    }
-    .menuiconactive {
-        display: none;
-    }
-    header{
-        justify-content: flex-end;
-    }
-  }

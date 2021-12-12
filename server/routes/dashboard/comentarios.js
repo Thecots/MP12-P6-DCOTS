@@ -12,13 +12,11 @@ const { v4: uuidv4 } = require('uuid');
 
 
 router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
-  Article.find({"comments":{"$exists":true}}, (err,x)=>{
-    let template = [];
-    
-    x.forEach(n => {
-      n.comments.forEach(e => {
-        let d = new Date(e.date)
-
+  Comment.find({},(err,r)=>{
+    let t = [];
+    r.forEach((g,index) => {
+      Article.findById(g.idArticle, (err,n)=>{
+        let d = new Date(g.date)
         const zero = (e)=>{
          if(e <= 9){
            return `0${e}`;
@@ -26,34 +24,34 @@ router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => 
            return e;
          }
         }
-
-        template.push({
+        t.push({
           article: {
             id: n._id,
             title:n.title,
           },
           comment:{
-            id:e.id,
-            comment:e.comment,
-            author: e.author,
+            id:req.id,
+            comment:g.comment,
+            author: g.author,
             date: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
             pts: `${d.getFullYear()}${zero(d.getMonth())}${zero(d.getDate())}`,
           }
-        })
-      })
-    })
-    role= getRole(req);
-    res.render("adminComentarios",
-    {
-      session: role.user,
-      role: role.admin,
-      admin: true,
-      comentarios: true,
-      json: template
+        });
 
+        if(r.length-1 === index){
+          role= getRole(req);
+          res.render("adminComentarios",
+          {
+            session: role.user,
+            role: role.admin,
+            admin: true,
+            comentarios: true,
+            json: t
+          });
+        }
+      });
     });
-  });
-  
+  }); 
 });
 
 router.put("/comentarios",[verificaToken], async(req, res) => {

@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>srcots</title>
-    <link rel="stylesheet" href="assets/style/global.css">
+    <link rel="stylesheet" href="/assets/style/global.css">
     {{#if login}}
-    <link rel="stylesheet" href="assets/style/login.css">
+    <link rel="stylesheet" href="/assets/style/login.css">
     {{/if}}
     {{#if admin}}
-    <link rel="stylesheet" href="assets/style/admin.css">
+    <link rel="stylesheet" href="/assets/style/admin.css">
     {{/if}}
     {{#if articulos}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
@@ -29,19 +29,19 @@
     {{#if admin}}
     <menu>
         <ul>
-            <li><a href="/admin" {{#if inicio}} class="active" {{/if}}><img src="assets/img/home.png">Inicio</a></li>
+            <li><a href="/admin" {{#if inicio}} class="active" {{/if}}><img src="/assets/img/home.png">Inicio</a></li>
             <li><a href="/articulos" {{#if articulos}} class="active" {{/if}}><img
-                        src="assets/img/article.png">Articulos</a></li>
+                        src="/assets/img/article.png">Articulos</a></li>
             <li><a href="/comentarios" {{#if comentarios}} class="active" {{/if}}><img
-                        src="assets/img/coment.png">Comentarios</a></li>
-            <li><a href="/usuarios" {{#if usuarios}} class="active" {{/if}}><img src="assets/img/user.png">Usuarios</a>
+                        src="/assets/img/coment.png">Comentarios</a></li>
+            <li><a href="/usuarios" {{#if usuarios}} class="active" {{/if}}><img src="/assets/img/user.png">Usuarios</a>
             </li>
         </ul>
     </menu>
     {{/if}}
     {{{body}}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/global.js"></script>
+    <script src="/assets/js/global.js"></script>
 </body>
 
 </html>
