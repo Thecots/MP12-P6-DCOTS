@@ -19,6 +19,7 @@ router.get("/articulos",[verificaToken,verificaAdminRole], (req, res) => {
           author: n.author,
           date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
           id: n._id,
+          views: n.views,
           comments: r.length
         });
         if (index === article.length-1) { 

@@ -4,6 +4,8 @@ const decode = require('jsonwebtoken/decode');
 const {getRole} = require("./../middlewares/auth");
 const router = express.Router();
 router.use(cookieParser())
+const Article = require("../models/article");
+const Comment = require("../models/comment");
 
 router.get("/cerrarsesion", async (req, res) =>{
   role = getRole(req)
@@ -27,8 +29,17 @@ router.get("/", async (req, res) =>{
 });
 
 router.get("/home/:id", async (req, res) =>{
+  Article.findById( req.params.id, (err,r) => {
+    if(err){
+      res.render("home");
+      return 0;
+    }
+    Comment.find({idArticle:req.params.id},(err,r)=>{
+
+    })
+  })
   role = getRole(req)
-  res.render("home",
+  res.render("article",
   {
     session: role.user,
     role: role.admin,
