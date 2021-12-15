@@ -1,0 +1,47 @@
+<main>
+    <section>
+        <div class="header">
+            <h1>{{json.article.title}}</h1>
+        </div>
+        <hr>
+        <div class="info_Artr">
+            <h2><b>Autor: </b>{{json.article.author}}</h2>
+            <div>
+                <span>
+                    <img src="/assets/img/view.png" alt="">
+                    <h2>{{json.article.views}}</h2>
+                </span>
+                <h2>{{json.article.date}}</h2>
+            </div>
+        </div>
+        <article>
+            {{json.article.content}}
+        </article>
+        <div class="comentarios">
+            <h3>{{json.comentNum}} comentarios</h3>
+            <hr>
+            {{#if session}}
+            <div class="comentar">
+                <form>
+                    <textarea></textarea>
+                    <input type="button" value="Comentar">
+                </form>
+            </div>
+            {{/if}}
+            {{#each json.comment}}
+            <div class="commentDiv">
+                <span>
+                    <img src="/assets/img/user.png">
+                </span>
+                <div>
+                    <span>
+                        <h2>{{this.author}}</h2>
+                        <p>{{this.date}}</p>
+                    </span>
+                    <p>{{this.content}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</main>

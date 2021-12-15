@@ -29,22 +29,68 @@ router.get("/", async (req, res) =>{
 });
 
 router.get("/home/:id", async (req, res) =>{
-  Article.findById( req.params.id, (err,r) => {
+
+  Article.findById(req.params.id, async (err,r) => {
     if(err){
-      res.render("home");
+      res.redirect("/");
       return 0;
     }
-    Comment.find({idArticle:req.params.id},(err,r)=>{
-
+    await Article.updateOne({ _id:req.params.id}, { $set: { views: r.views+1 } })
+    Comment.find({idArticle:r._id},(err, f) => {
+      let template = [];
+      if(f.length == 0){
+        let d = new Date(r.date);
+        role = getRole(req)
+        res.render("article",
+        {
+          session: role.user,
+          role: role.admin,
+          articlesee: true,
+          json: {
+            article: {
+              author: r.author,
+              title: r.title,
+              content: r.content,
+              views: r.views+1,
+              date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+            },
+            comentNum: 0
+          }
+        });
+      }
+      f.forEach((x,index) => {
+        let dd = new Date(x.date);
+        template.push({
+          author: x.author,
+          content: x.comment,
+          date: `${dd.getDate()}/${dd.getMonth()}/${dd.getFullYear()}`
+        })
+        if(f.length-1 == index){
+          let d = new Date(r.date);
+          role = getRole(req)
+          res.render("article",
+          {
+            session: role.user,
+            role: role.admin,
+            articlesee: true,
+            json: {
+              article: {
+                author: r.author,
+                title: r.title,
+                content: r.content,
+                views: r.views+1,
+                date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+              },
+              comment: template,
+              comentNum: f.length
+            }
+          });
+        }
+      })     
     })
+    
+
+    
   })
-  role = getRole(req)
-  res.render("article",
-  {
-    session: role.user,
-    role: role.admin,
-    home: true,
-    articleid: req.params.id
-  });
 });
 module.exports = router;

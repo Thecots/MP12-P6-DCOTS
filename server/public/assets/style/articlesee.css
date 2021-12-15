@@ -1,0 +1,134 @@
+main{
+    max-width: 100%;
+    width: 100%;
+    padding: 25px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+main section{
+    background-color: white;
+    width: 1500px;
+    max-width: 100%;
+    min-height: calc(100vh - 110px);
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.header h1{
+    font-weight: 500;
+    font-size: 30px;
+    padding: 10px 0;
+}
+.info_Artr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.info_Artr div, .info_Artr span{
+    display: flex;
+}
+
+.info_Artr span{
+    margin-right: 20px;
+}
+
+.info_Artr span img{
+    width: 20px;
+    margin: 0 5px;
+}
+
+main section div h2{
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(31, 31, 31);
+}
+
+.comentarios{
+    margin-top: 25px;
+}
+
+.comentarios h3{
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.comentarios img{
+    width: 50px;
+    border-radius: 500px;
+    padding: 10px;
+    background-color: rgb(224, 224, 224);
+}
+
+.commentDiv{
+    margin-top: 10px;
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgba(128, 128, 128, 0.164);
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.commentDiv div{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.commentDiv div h2{
+    font-weight: 500;
+    font-size: 19px;
+}
+
+.commentDiv > span{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.commentDiv div span{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.comentar{
+    width: 100%;
+    margin: 10px 0 ;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: flex-end;
+}
+.comentar textarea{
+    resize: none;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    min-height: 80px;
+    font-size: 16px;
+    outline: none;
+    overflow-y: auto;
+}
+.comentar input{
+    float: right;
+    margin-top: 5px;
+    padding: 7px 20px;
+    background-color: royalblue;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.comentar input:active{
+    background-color: rgb(66, 111, 246);
+    transform: scale(0.96);
+}
