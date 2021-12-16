@@ -43,11 +43,13 @@ router.get("/home/:id", async (req, res) =>{
         role = getRole(req)
         res.render("article",
         {
+          articleC : true,
           session: role.user,
           role: role.admin,
           articlesee: true,
           json: {
             article: {
+              id: r._id,
               author: r.author,
               title: r.title,
               content: r.content,
@@ -70,11 +72,13 @@ router.get("/home/:id", async (req, res) =>{
           role = getRole(req)
           res.render("article",
           {
+            articleC : true,
             session: role.user,
             role: role.admin,
             articlesee: true,
             json: {
               article: {
+                id:r._id,
                 author: r.author,
                 title: r.title,
                 content: r.content,
@@ -88,9 +92,6 @@ router.get("/home/:id", async (req, res) =>{
         }
       })     
     })
-    
-
-    
   })
 });
 module.exports = router;

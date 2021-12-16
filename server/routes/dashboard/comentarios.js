@@ -55,13 +55,14 @@ router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => 
 });
 
 router.put("/comentarios",[verificaToken], async(req, res) => {
+  let d = new Date();
   let comment = new Comment(
     {
       comment: req.body.comment,
-      author: req.body.author,
+      author: req.usuari.username,
       idArticle: req.body.idArticle,
     }
-  );
+    );
 
   comment.save((err, commentDB) => {
     if (err) {
@@ -72,7 +73,11 @@ router.put("/comentarios",[verificaToken], async(req, res) => {
     }
     res.json({
       ok: true,
-      user: commentDB,
+      comment: {
+        comment: req.body.comment,
+        author: req.usuari.username,
+        data: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+      },
     });
   });
 });
