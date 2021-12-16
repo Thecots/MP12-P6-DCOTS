@@ -54,7 +54,7 @@ router.get("/home/:id", async (req, res) =>{
               title: r.title,
               content: r.content,
               views: r.views+1,
-              date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+              date: `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
             },
             comentNum: 0
           }
@@ -62,10 +62,10 @@ router.get("/home/:id", async (req, res) =>{
       }
       f.forEach((x,index) => {
         let dd = new Date(x.date);
-        template.push({
+          template.push({
           author: x.author,
           content: x.comment,
-          date: `${dd.getDate()}/${dd.getMonth()}/${dd.getFullYear()}`
+          date: `${dd.getDate()}/${dd.getMonth()+1}/${dd.getFullYear()}`
         })
         if(f.length-1 == index){
           let d = new Date(r.date);
@@ -83,9 +83,9 @@ router.get("/home/:id", async (req, res) =>{
                 title: r.title,
                 content: r.content,
                 views: r.views+1,
-                date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+                date: `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
               },
-              comment: template,
+              comment: template.reverse(),
               comentNum: f.length
             }
           });

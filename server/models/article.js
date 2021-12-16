@@ -18,7 +18,7 @@ let articleSchema = new Schema({
   },
   date:{
     type: Date,
-    default: new Date(+new Date() + 7*24*60*60*1000)
+    default: new Date()
   },
   views: {
     type: Number,

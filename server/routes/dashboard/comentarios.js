@@ -13,6 +13,17 @@ const { v4: uuidv4 } = require('uuid');
 
 router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
   Comment.find({},(err,r)=>{
+    if(r.length === 0){
+      role= getRole(req);
+          res.render("adminComentarios",
+          {
+            session: role.user,
+            role: role.admin,
+            admin: true,
+            comentarios: true,
+            json: []
+          });
+    }
     let t = [];
     r.forEach((g,index) => {
       Article.findById(g.idArticle, (err,n)=>{
@@ -63,7 +74,6 @@ router.put("/comentarios",[verificaToken], async(req, res) => {
       idArticle: req.body.idArticle,
     }
     );
-
   comment.save((err, commentDB) => {
     if (err) {
       return res.status(400).json({
@@ -76,7 +86,7 @@ router.put("/comentarios",[verificaToken], async(req, res) => {
       comment: {
         comment: req.body.comment,
         author: req.usuari.username,
-        data: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+        data: `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
       },
     });
   });

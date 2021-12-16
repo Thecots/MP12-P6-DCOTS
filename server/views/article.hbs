@@ -23,14 +23,14 @@
             {{#if session}}
             <div class="comentar">
                 <form>
-                    <textarea></textarea>
+                    <textarea required></textarea>
                     <input type="hidden" value="{{json.article.id}}" id="idArticle">
                     <input type="submit" value="Comentar">
                 </form>
             </div>
             {{/if}}
             <div class="takeAppend">
-            {{#each json.comment}}
+                {{#each json.comment}}
                 <div class="commentDiv">
                     <span>
                         <img src="/assets/img/user.png">
@@ -43,7 +43,7 @@
                         <p>{{this.content}}</p>
                     </div>
                 </div>
-            {{/each}}
+                {{/each}}
             </div>
         </div>
     </section>
