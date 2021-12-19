@@ -20,6 +20,10 @@ let articleSchema = new Schema({
     type: Date,
     default: new Date()
   },
+  sort:{
+    type: Number,
+    default: new Date().getTime()
+  },
   views: {
     type: Number,
     default: 0

@@ -88,7 +88,6 @@ menu ul li a.active{
 section{
     background-color: white;
     width: 100%;
-    min-height: 500px;
     height: calc(100vh - 80px);
     border-radius: 5px;
     display: flex;
@@ -132,7 +131,12 @@ tbody td a{
     width: fit-content;
     border-radius: 4px;
     text-align: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
 
+tbody td a:active{
+    transform: scale(0.95);
 }
 
 tbody td a img{
@@ -155,4 +159,18 @@ tbody td a img{
     header{
         justify-content: flex-end;
     }
+  }
+
+  button.dt-button{
+      background-color: royalblue;
+      padding: 5px 15px;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-decoration: none;
+      cursor: pointer;
+      width: fit-content;
+      border-radius: 3px;
+      align-self: flex-end;
+      border: none;
   }

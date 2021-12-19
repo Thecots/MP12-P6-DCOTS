@@ -95,9 +95,37 @@ router.put("/comentarios",[verificaToken], async(req, res) => {
 
 /* POST */
 router.post("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
-    let s = await Comment.findById('61b0c39485a2b06093d43c51').count();
+  let template = [];
+  const art = await Article.find();
+  const com = await Comment.find();
 
-    console.log(s);
+  com.forEach(n=> {
+    let d = new Date(n.date);
+    template.push({
+      article: {
+        title: art.find(x => x._id == n.idArticle).title,
+      },
+      comment:{
+        id: n._id,
+        comment:n.comment,
+        author: n.author,
+        date: d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate(),
+      }
+    });
+  });
+  res.send({
+    data: template
+  })
 });
 
+router.delete("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
+  Comment.find({_id:req.body.id}).deleteOne().exec((err,r)=>{
+    if(!err){
+      res.send({ok:true})
+    }else{
+      res.send({ok:false})
+    }
+
+  });
+});
 module.exports = router;

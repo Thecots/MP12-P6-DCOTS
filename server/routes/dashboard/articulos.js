@@ -1,41 +1,24 @@
 const express = require("express");
-const {verificaToken, verificaAdminRole} = require('./../../middlewares/auth')
+const {verificaToken, verificaAdminRole,getname} = require('./../../middlewares/auth')
 const cookieParser = require("cookie-parser");
 const {getRole} = require("./../../middlewares/auth");
 const Article = require("../../models/article");
 const Comment = require("../../models/comment");
+const { append } = require("express/lib/response");
 const router = express.Router();
 router.use(cookieParser())
 
 /* GET */
 router.get("/articulos",[verificaToken,verificaAdminRole], (req, res) => {
-  Article.find({},"_id title author views date").exec((err, article) => {
-    let template = [];
-    article.forEach((n,index) =>  { 
-      Comment.find({idArticle: n._id.valueOf() }, (err, r)=>{
-        const d = new Date(n.date);
-        template.push({
-          title: n.title,
-          author: n.author,
-          date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
-          id: n._id,
-          views: n.views,
-          comments: r.length
-        });
-        if (index === article.length-1) { 
-          const role = getRole(req);
-          res.render('adminArticulos', {
-            session: role.user,
-            role: role.admin,
-            admin: true,
-            articulos: true,
-            json: template
-          });
-        };
-      });
+    const role = getRole(req);
+    res.render('adminArticulos', {
+      session: role.user,
+      role: role.admin,
+      admin: true,
+      articulos: true
     });
   });
-});
+
 
 /* POST */
 router.post("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
@@ -59,8 +42,7 @@ router.put("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
     let article = new Article({
       title: body.title,
       content: body.content,
-      author: body.author,
-      role: body.role
+      author: getname(req),
     });
   
     article.save((err, articleDB) => {
@@ -78,110 +60,46 @@ router.put("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
 });
 
 /* DELETE */
-router.delete("/articulos", [verificaToken, verificaAdminRole],(req,res) => {
-    User.deleteOne({_id: req.body.id}, (err) => {
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err,
-        });
-      };
-  
-      res.json({
-        ok: true,
-      });
-    });
+router.delete("/articulos", [verificaToken, verificaAdminRole], async(req,res) => {
+    try {
+      await Comment.deleteMany({idArticle:req.body.id});
+      await Article.deleteOne({_id: req.body.id});
+      res.send({ok:true})
+    } catch (error) {
+      console.log(error);
+      res.send({ok:false})
+    }
 })
     
+router.post("/comentariosShow", [verificaToken, verificaAdminRole], async(req,res) => {
+  let template = [];
 
-module.exports = router;
+  const art = await Article.find({},"_id title author views date");
+  const com = await Comment.find();
 
-
-
-/* 
-  Solución 1:
-  Article.find({}, '_id title author').exec((err, article) => {
-    let template = [];
-    article.forEach((n, index) => {
-      Comment.find({ idArticle: n._id.valueOf() }, (err, r) => { // No haria falta el valueOf() si en el Schema de mongoose lo has definido como ObjectId
-        const d = new Date(n.date);
-        template.push({
-          title: n.title,
-          author: n.author,
-          date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
-          id: n._id,
-          comments: r.length
-        });
-
-        if (index === article.length) { // Cuando es el ultimo Articulo enviamos la respuesta
-          const role = getRole(req);
-          res.render('adminArticulos', {
-            session: role.user,
-            json: template
-          });
-        }
-      });
-    });
-  });
-
-
-  Solución 2:
-  
-  module.exports = async (req, res) => { // Añadimos la anotación de async para indicar que esta función es asíncrona
-  const articles = await Article.find({}, '_id title author'); // A cada petición asíncrona añadimos await para que espere a que se resuelva la promesa para continuar con el hilo de ejecución.
-
-  let template = articles.map(async (n) => {
-    const comments = await Comment.countDocuments({ idArticle: n._id }); // Utilizon el meted countDocuments que nos devuelve el numero de resultados obtenidos.
-
+  art.forEach(n=>{
     const d = new Date(n.date);
-
-    return {
+    template.push({
       title: n.title,
       author: n.author,
-      date: `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
+      date: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
       id: n._id,
-      comments: comments
-    };
-  });
+      views: n.views,
+      comments: com.filter(x=> x.idArticle == n._id).length
+    });
+  })
+  res.send({data:template.reverse()})
+});
 
+router.get('/articulos/create', [verificaToken, verificaAdminRole],(req,res)=>{
   const role = getRole(req);
-
-  res.render('adminArticulos', {
+  res.render('crearArticulo', {
     session: role.user,
-    json: template
+    role: role.admin,
+    admin: true,
+    newarticulo: true,
   });
-};
+})
 
-Solución 3:
 
-module.exports = async (req, res) => {
-  const template = await Article.aggregate([
-    {
-      $lookup: { // Etapa para realizar un join con la colección Comments
-        from: 'comments', // Nombre de la colección
-        localField: '_id', // El nombre del campo al cual emparejar con la otra colección
-        foreignField: 'idArticle', // El nombre del campo de la colección a emparejar
-        as: 'comments' // Nombre del campo que quieres que se devuelvan los resultados
-      }
-    },
-    {
-      $project: { // Etapa para procesar la devolución de los campos de cada documento
-        _id: 0,
-        id: '$id',
-        title: 1,
-        author: 1,
-        date: { $dateToString: { date: '$date', format: '%d-%m-%Y', } }, // Si la fecha esta almacenada en formato Date
-        // date: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } }, Si la fecha esta almacenada en formato String
-        comments: { $size: '$comments' }
-      }
-    }
-  ]);
-
-  const role = getRole(req);
-
-  res.render('adminArticulos', {
-    session: role.user,
-    json: template
-  });
-};
-*/
+module.exports = router;

@@ -44,10 +44,15 @@ let getRole = (req) => {
     }
 }
 
+let getname = (req)=>{
+    return decode(req.cookies.session)['usuari']['username'];
+}
+
 
 module.exports= {
     verificaToken,
     verificaAdminRole,
     verificaTokenLogin,
-    getRole
+    getRole,
+    getname
 }

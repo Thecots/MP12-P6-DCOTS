@@ -1,0 +1,116 @@
+main{
+    max-width: 100%;
+    width: 100%;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+section{
+    background-color: white;
+    width: 1500px;
+    max-width: 100%;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    min-height: calc(100vh - 105px);
+}
+
+/* article */
+section a{
+    text-decoration: none;
+    color: black;
+}
+article{
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgba(128, 128, 128, 0.164);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;   
+    margin-bottom: 10px; 
+}
+article .right span{
+    display: flex;
+    gap: 5px;
+}
+article .right span img{
+    width: 20px;
+}
+
+article .left{
+    display: flex;
+    flex-direction: column;
+}
+
+article .left h2{
+    font-weight: 500;
+}
+article .left h3{
+    font-size: 15px;
+    font-weight: 400;
+}
+article .left p{
+    font-size: 15px;
+    font-weight: 500;
+}
+
+article .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+/* paginator */
+div#pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.paginationjs-pages ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.paginationjs-pages ul li {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(128, 128, 128, 0.322);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+}
+
+.paginationjs-pages ul li.active {
+    background-color: rgb(90 107 225 / 44%);
+}
+.paginationjs-pages ul li.active a{
+    color: white !important;
+}
+
+
+.noArticles{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100vh;
+    height: 100%;
+}
+
+.noArticles h1{
+    font-weight: 400;
+    font-size: 25px;
+}

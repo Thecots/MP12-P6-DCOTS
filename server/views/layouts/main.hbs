@@ -11,6 +11,9 @@
     {{#if login}}
     <link rel="stylesheet" href="/assets/style/login.css">
     {{/if}}
+    {{#if home}}
+    <link rel="stylesheet" href="/assets/style/home.css">
+    {{/if}}
     {{#if admin}}
     <link rel="stylesheet" href="/assets/style/admin.css">
     {{/if}}
@@ -25,6 +28,9 @@
     {{/if}}
     {{#if articlesee}}
     <link rel="stylesheet" href="/assets/style/articlesee.css">
+    {{/if}}
+    {{#if newarticulo}}
+    <link rel="stylesheet" href="/assets/style/newarticulo.css">
     {{/if}}
 </head>
 
@@ -44,11 +50,16 @@
     </menu>
     {{/if}}
     {{{body}}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{#if articleC}}
     <script src="/assets/js/article.js"></script>
     {{/if}}
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/assets/js/global.js"></script>
+    {{#if home}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+    <script src="/assets/js/home.js"></script>
+    {{/if}}
 </body>
 
 </html>
