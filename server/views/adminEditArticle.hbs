@@ -1,0 +1,85 @@
+<main>
+    <section>
+        <div class="title">
+            <h1>Nuevo Articulo</h1>
+        </div>
+        <div class="newartdiv">
+            <form>
+                <div class="text-field">
+                    <input id="titulo" required autocomplete="off" name="titulo" value="{{json.title}}">
+                    <label class="label">Titulo</label>
+                </div>
+                <div class="text-field">
+                    <textarea id="articulo" required autocomplete="off" name="articulo">{{json.content}}</textarea>
+                    <label class="label">Articulo</label>
+                </div>
+                <input type="hidden" value="{{json.id}}">
+                <input type="submit" value="editar">
+            </form>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.querySelector('form').addEventListener("submit", e => {
+        e.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        myHeaders.append("Cookie", "session=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmkiOnsiX2lkIjoiNjE5M2M2YjExMWE5MjAwYmFhMjQyOWExIiwidXNlcm5hbWUiOiJyb290IiwiZW1haWwiOiJyb290QGluc2RhbmllbGJsYW54YXJ0LmNhdHMiLCJyb2xlIjoiQURNSU5fUk9MRSIsIl9fdiI6MH0sImlhdCI6MTYzOTk0OTM3NywiZXhwIjoxNjQwMDM1Nzc3fQ.fMQP6IVARsqzOIENMmil6PTlQObSMnJl8Ir0qPVyJ00");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("id", document.querySelector('form')[2].value);
+        urlencoded.append("title", document.querySelector('form')['titulo'].value);
+        urlencoded.append("content", document.querySelector('form')['articulo'].value);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+        };
+
+        fetch("/editarticle", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                res = JSON.parse(result);
+                if (res.ok) {
+                    Swal.fire(
+                        'Articulo editado!',
+                        'se ha editado el articulo correctamente.',
+                        'success'
+                    ).then(() => {
+                        {
+                            window.location.href = "/articulos"
+                        }
+                    })
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'ha ocurrido un error.',
+                        'error'
+                    ).then(() => {
+                        {
+                            window.location.href = "/edit/" + document.querySelector('form')[2].value
+                        }
+                    })
+
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error!',
+                    'ha ocurrido un error.',
+                    'error'
+                ).then(() => {
+                    {
+                        window.location.href = "/edit/" + document.querySelector('form')[2].value
+
+                    }
+                })
+            });
+
+
+
+    })
+</script>

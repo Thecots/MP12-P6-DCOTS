@@ -61,4 +61,7 @@ router.get("/usuarios",[verificaToken,verificaAdminRole], async(req, res) => {
     usuarios: true,
   });
 });
+
+
+
 module.exports = router;

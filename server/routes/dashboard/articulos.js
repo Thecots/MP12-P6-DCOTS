@@ -5,6 +5,7 @@ const {getRole} = require("./../../middlewares/auth");
 const Article = require("../../models/article");
 const Comment = require("../../models/comment");
 const { append } = require("express/lib/response");
+const { Mongoose } = require("mongoose");
 const router = express.Router();
 router.use(cookieParser())
 
@@ -66,7 +67,6 @@ router.delete("/articulos", [verificaToken, verificaAdminRole], async(req,res) =
       await Article.deleteOne({_id: req.body.id});
       res.send({ok:true})
     } catch (error) {
-      console.log(error);
       res.send({ok:false})
     }
 })
@@ -99,6 +99,31 @@ router.get('/articulos/create', [verificaToken, verificaAdminRole],(req,res)=>{
     admin: true,
     newarticulo: true,
   });
+})
+
+router.get('/edit/:id', [verificaToken,verificaAdminRole], async(req,res)=>{
+  const art = await Article.findById(req.params.id);
+  const role = getRole(req);
+  res.render('adminEditArticle',{
+    session: role.user,
+    role: role.admin,
+    admin: true,
+    newarticulo: true,
+    json: {
+      id: art._id,
+      title: art.title,
+      content: art.content
+    }
+  })
+})
+
+router.post('/editarticle',  [verificaToken,verificaAdminRole], async(req,res)=>{
+  Article.findByIdAndUpdate(req.body.id,{title:req.body.title, content: req.body.content}, (err,doc) => {
+    if(err){
+      res.send({ok:false})
+    }
+    res.send({ok:true});
+  })
 })
 
 
