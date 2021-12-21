@@ -72,8 +72,16 @@ div#pagination-container {
     justify-content: center;
     align-items: flex-end;
     margin-bottom: 10px;
+    position: relative;
 }
-
+li.paginationjs-prev{
+    position: absolute;
+    left: 25px;
+}
+li.paginationjs-next {
+    position: absolute;
+    right: 25px;
+}
 .paginationjs-pages ul {
     display: flex;
     list-style: none;

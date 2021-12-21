@@ -162,15 +162,20 @@ tbody td a img{
   }
 
   button.dt-button{
-      background-color: royalblue;
-      padding: 5px 15px;
-      color: white;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-decoration: none;
-      cursor: pointer;
-      width: fit-content;
-      border-radius: 3px;
-      align-self: flex-end;
-      border: none;
-  }
+    background-color: #003147;
+    padding: 8px 15px;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    width: fit-content;
+    border-radius: 3px;
+    align-self: flex-end;
+    border: none;
+}
+
+
+th.sorting.sorting_desc {
+    width: 75px !important;
+}

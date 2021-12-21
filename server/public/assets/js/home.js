@@ -18,8 +18,8 @@ fetch("/getHomeArticles", requestOptions)
             $('#pagination-container').pagination({
                 dataSource: JSON.parse(res.json),
                 pageSize: 8,
-                autoHidePrevious: true,
-                autoHideNext: true,
+/*                 autoHidePrevious: true,
+                autoHideNext: true, */
                 callback: function(data, pagination) {
                     var html = simpleTemplating(data);
                     $('#data-container').html(html);

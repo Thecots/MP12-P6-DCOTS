@@ -11,8 +11,10 @@ const User = require("../models/user");
 
 /* inicio */
 router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
-  role= getRole(req);
+  const articulos = await Article.find().countDocuments();
+  const comentarios = await Comment.find().countDocuments();
 
+  role= getRole(req);
   Article.find({},(err,countA)=>{
     let countC = countV = 0;
     if(err){countA = 0}
@@ -31,8 +33,8 @@ router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
           role: role.admin,
           admin: true,
           inicio: true,
-          countA,
-          countC,
+          countA: articulos,
+          countC: comentarios,
           countU,
           countV,
         });

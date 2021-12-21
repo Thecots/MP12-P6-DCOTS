@@ -114,7 +114,7 @@ router.post("/comentarios",[verificaToken,verificaAdminRole], async(req, res) =>
     });
   });
   res.send({
-    data: template
+    data: template.reverse()
   })
 });
 
