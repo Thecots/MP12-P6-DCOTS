@@ -107,6 +107,7 @@ section aside div{
     background-color: #143f52;
     border-radius: 5px;
     padding: 10px;
+    height: fit-content;
 }
 section aside div h2{
     border-radius: 5px;
@@ -178,4 +179,18 @@ tbody td a img{
 
 th.sorting.sorting_desc {
     width: 75px !important;
+}
+
+
+.chartOne{
+    max-width: 100%;
+    width: 500px;
+    padding: 15px;
+}
+
+.numeritos{
+    padding: 10px;
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 }
