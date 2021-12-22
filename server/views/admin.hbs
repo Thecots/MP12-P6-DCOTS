@@ -1,3 +1,24 @@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    th {
+        background-color: #003147;
+        color: white;
+    }
+</style>
 <main>
     <section>
         <div class="title">
@@ -6,7 +27,7 @@
         <aside>
             <div>
                 <h2>{{countA}}</h2>
-                <p>Articulos</p>
+                <p>Artículos</p>
             </div>
             <div>
                 <h2>{{countC}}</h2>
@@ -21,15 +42,65 @@
                 <p>Visitas</p>
             </div>
         </aside>
-        <div class="title">
-            <h1 style="margin-top: 25px;">Gráficos</h1>
-        </div>
+
         <div class="numeritos">
+            <div class="lastarticles">
+                <h1>Últimos 5 Artículos</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>titulo</th>
+                            <th>Autor</th>
+                            <th>Comentarios</th>
+                            <th>Visitas</th>
+                            <th>Ver</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each lastpost}}
+                        <tr>
+                            <td>{{this.title}}</td>
+                            <td>{{this.author}}</td>
+                            <td>{{this.comment}}</td>
+                            <td>{{this.views}}</td>
+                            <td><a href="/home/{{this.id}}"><img src="/assets/img/view.png"></a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="lastarticles">
+                <h1>Últimos 5 comentarios</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Artículo</th>
+                            <th>Autor</th>
+                            <th>Comentario</th>
+                            <th>Ver</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each lastcoment}}
+                        <tr>
+                            <td>{{this.title}}</td>
+                            <td>{{this.author}}</td>
+                            <td>{{this.comment}}</td>
+                            <td><a href="/home/{{this.id}}"><img src="/assets/img/view.png"></a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="title">
+            <h1>Gráfico</h1>
+        </div>
+        <div class="box22">
             <div class="chartOne">
                 <canvas id="myChart" width="400" height="400"></canvas>
-            </div>
-            <div class="chartOne">
-                <canvas id="myChart2" width="400" height="400"></canvas>
             </div>
         </div>
     </section>

@@ -13,6 +13,7 @@ const User = require("../models/user");
 router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
   const articulos = await Article.find().countDocuments();
   const comentarios = await Comment.find().countDocuments();
+  const comentarios2 = await Comment.find();
 
   role= getRole(req);
   Article.find({},(err,countA)=>{
@@ -22,6 +23,28 @@ router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
     countA.forEach(n =>{
       countV += n.views;
     });
+
+    
+    let lastpost = []
+    for(let i = countA.length-1; i > countA.length-6; i--){
+      lastpost.push({
+        title:countA[i].title,
+        author:countA[i].author,
+        comment: comentarios2.filter(n=> n.idArticle == countA[i]._id).length,
+        views: countA[i].views,
+        id: countA[i]._id
+      })
+    }
+    lastcoment = [];
+    for(let i = comentarios2.length-1; i > comentarios2.length-6; i--){
+      lastcoment.push({
+        title: countA.filter(n=>n._id == comentarios2[i].idArticle)[0].title,
+        author:comentarios2[i].author,
+        comment: comentarios2[i].comment,
+        id: comentarios2[i].idArticle
+      })
+    }
+
     countA = countA.length;
     Comment.count({},(err,countC)=>{
       /* contar comentarios */
@@ -37,6 +60,8 @@ router.get("/admin",[verificaToken,verificaAdminRole], async(req, res) => {
           countC: comentarios,
           countU,
           countV,
+          lastpost,
+          lastcoment
         });
       });
     });
