@@ -20,14 +20,13 @@ router.get("/cerrarsesion", async (req, res) =>{
 
 
 router.get("/", async (req, res) =>{
-
   role = getRole(req)
-      res.render("home",
-      {
-        session: role.user,
-        role: role.admin,
-        home: true,
-      });
+  res.render("home",
+  {
+    session: role.user,
+    role: role.admin,
+    home: true,
+  });
   
 });
 

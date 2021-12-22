@@ -12,58 +12,16 @@ const { v4: uuidv4 } = require('uuid');
 
 
 router.get("/comentarios",[verificaToken,verificaAdminRole], async(req, res) => {
-  Comment.find({},(err,r)=>{
-    if(r.length === 0){
-      role= getRole(req);
-          res.render("adminComentarios",
-          {
-            session: role.user,
-            role: role.admin,
-            admin: true,
-            comentarios: true,
-            json: []
-          });
-    }
-    let t = [];
-    r.forEach((g,index) => {
-      Article.findById(g.idArticle, (err,n)=>{
-        let d = new Date(g.date)
-        const zero = (e)=>{
-         if(e <= 9){
-           return `0${e}`;
-         }else{
-           return e;
-         }
-        }
-        t.push({
-          article: {
-            id: n._id,
-            title:n.title,
-          },
-          comment:{
-            id:req.id,
-            comment:g.comment,
-            author: g.author,
-            date: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
-            pts: `${d.getFullYear()}${zero(d.getMonth())}${zero(d.getDate())}`,
-          }
-        });
-
-        if(r.length-1 === index){
-          role= getRole(req);
-          res.render("adminComentarios",
-          {
-            session: role.user,
-            role: role.admin,
-            admin: true,
-            comentarios: true,
-            json: t
-          });
-        }
-      });
-    });
-  }); 
+  role= getRole(req);
+  res.render("adminComentarios",
+  {
+    session: role.user,
+    role: role.admin,
+    admin: true,
+    comentarios: true,
+  });
 });
+
 
 router.put("/comentarios",[verificaToken], async(req, res) => {
   let d = new Date();

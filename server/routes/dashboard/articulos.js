@@ -32,7 +32,6 @@ router.post("/articulos",[verificaToken,verificaAdminRole], async(req, res) => {
         }
         res.json({
           ok: true,
-          article,
         });
       });
   });
@@ -102,28 +101,32 @@ router.get('/articulos/create', [verificaToken, verificaAdminRole],(req,res)=>{
 })
 
 router.get('/edit/:id', [verificaToken,verificaAdminRole], async(req,res)=>{
-  const art = await Article.findById(req.params.id);
   const role = getRole(req);
-  res.render('adminEditArticle',{
-    session: role.user,
-    role: role.admin,
-    admin: true,
-    newarticulo: true,
-    json: {
-      id: art._id,
-      title: art.title,
-      content: art.content
-    }
-  })
+  try {
+    const art = await Article.findById(req.params.id);
+    res.render('adminEditArticle',{
+      session: role.user,
+      role: role.admin,
+      admin: true,
+      newarticulo: true,
+      json: {
+        id: art._id,
+        title: art.title,
+        content: art.content
+      }
+    })
+  } catch (error) {
+    res.redirect("/articulos")
+  }
 })
 
 router.post('/editarticle',  [verificaToken,verificaAdminRole], async(req,res)=>{
-  Article.findByIdAndUpdate(req.body.id,{title:req.body.title, content: req.body.content}, (err,doc) => {
-    if(err){
-      res.send({ok:false})
+    try {
+      await Article.findByIdAndUpdate(req.body.id,{title:req.body.title, content: req.body.content})
+      res.send({ok:true});
+    } catch (error) {
+      res.send({ok:false});
     }
-    res.send({ok:true});
-  })
 })
 
 

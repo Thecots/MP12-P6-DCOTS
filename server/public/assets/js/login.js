@@ -20,6 +20,7 @@ const userHaveAccount = () => {
 function setloadbar(e) {
   loadBar.style.display = e == true ? "flex" : "none";
 }
+
 setloadbar(false);
 /* ---- toggle on/off error text ---- */
 function error(type, e, t) {
@@ -102,34 +103,3 @@ const iniciarSession = () => {
   setloadbar(false);
 };
 
-/* ----- sing up ----- */
-const crearCuenta = () => {
-  restartErrors();
-  let elements = document.getElementById("formIn").elements;
-  let u = elements.item(0).value,
-    p = elements.item(1).value,
-    c = elements.item(2).value;
-  if (u == "") {
-    error("username", true, "Campos vacios");
-    usernameInput.classList.add("error");
-  }
-  if (p != "" && c != "") {
-    console.log(p != c);
-    if (p != c) {
-      error("password", true, "Las contraseñas no coinciden");
-      confirmInput.classList.add("error");
-      return 0;
-    }
-  } else {
-    if (p == "") {
-      error("password", true, "Campos vacios");
-      passwordInput.classList.add("error");
-    }
-    if (c == "") {
-      error("password", true, "Campos vacios");
-      confirmInput.classList.add("error");
-    }
-    return 0;
-  }
-  var obj = { username: u, password: p };
-};
