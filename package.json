@@ -1,11 +1,10 @@
 {
-  "name": "Global",
+  "name": "srcots",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/server",
-    "build": "tsc"
+    "start": "nodemon server/server"
   },
   "keywords": [],
   "author": "",
