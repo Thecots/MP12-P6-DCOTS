@@ -27,5 +27,13 @@
     "@types/jquery": "^3.5.11",
     "nodemon": "^2.0.14",
     "@types/react-js-pagination": "^3.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thecots/MP12-P6-DCOTS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Thecots/MP12-P6-DCOTS/issues"
+  },
+  "homepage": "https://github.com/Thecots/MP12-P6-DCOTS#readme"
 }
