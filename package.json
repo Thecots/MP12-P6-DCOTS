@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/server"
+    "start": "nodemon server/server",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-js-pagination": "^3.0.4",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
@@ -23,6 +25,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.11",
     "nodemon": "^2.0.14"
   }
 }

@@ -1,37 +1,39 @@
-"use strict";
+
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
 var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    redirect: 'follow'
+method: 'POST',
+headers: myHeaders,
+redirect: 'follow'
 };
+
 fetch("/getHomeArticles", requestOptions)
-    .then(response => response.text())
-    .then(result => {
-    let res = JSON.parse(result);
+.then(response => response.text())
+.then(result => {
+    res = JSON.parse(result);
     console.log(res);
-    if (res.ok === true) {
-        if (JSON.parse(res.json).length != 0) {
+    if(res.ok === true){
+        if(JSON.parse(res.json).length != 0){
             $('#pagination-container').pagination({
                 dataSource: JSON.parse(res.json),
                 pageSize: 8,
-                callback: function (data, pagination) {
+                callback: function(data, pagination) {
                     var html = simpleTemplating(data);
                     $('#data-container').html(html);
                 }
-            });
-        }
-        else {
-            let section1 = document.querySelector("section");
-            section1.innerHTML = `<div class="noArticles"><h1>No hay articulos</h1></div>`;
+            })
+        }else{
+            document.querySelector("section").innerHTML = `<div class="noArticles"><h1>No hay articulos</h1></div>`
         }
     }
 })
-    .catch(error => console.log('error', error));
+.catch(error => console.log('error', error));
+
+
 function simpleTemplating(data) {
     var html = '';
-    $.each(data, function (index, n) {
+    $.each(data, function(index, n){
         html += `
         <div class="post">
             <a href="home/${n.id}">
@@ -57,3 +59,4 @@ function simpleTemplating(data) {
     });
     return html;
 }
+

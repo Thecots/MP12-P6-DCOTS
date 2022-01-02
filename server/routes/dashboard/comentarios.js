@@ -67,7 +67,7 @@ router.post("/comentarios",[verificaToken,verificaAdminRole], async(req, res) =>
         id: n._id,
         comment:n.comment,
         author: n.author,
-        date: d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate(),
+        date: `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`,
       }
     });
   });

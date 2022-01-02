@@ -142,9 +142,9 @@ li.paginationjs-next {
     padding: 5px 38px;
 }
 .header img{
-    filter: hue-rotate(345deg);
+    filter: brightness(0.9);
     object-fit: cover;
-    object-position: center;
+    object-position: bottom;
     height: 100%;
     width: 100%;
     position: absolute;

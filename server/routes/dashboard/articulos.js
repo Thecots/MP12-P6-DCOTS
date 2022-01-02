@@ -81,7 +81,7 @@ router.post("/comentariosShow", [verificaToken, verificaAdminRole], async(req,re
     template.push({
       title: n.title,
       author: n.author,
-      date: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
+      date: `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`,
       id: n._id,
       views: n.views,
       comments: com.filter(x=> x.idArticle == n._id).length
