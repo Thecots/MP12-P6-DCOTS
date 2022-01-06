@@ -12,12 +12,13 @@ section{
     max-width: 100%;
     height: fit-content;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
     min-height: calc(100vh - 105px);
 }
+
 
 /* article */
 section a{
@@ -25,14 +26,23 @@ section a{
     color: black;
 }
 article{
-    background-color: rgb(251, 251, 251);
+    background-color: white;
     border: 1px solid rgba(128, 128, 128, 0.164);
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     display: flex;
     justify-content: space-between;   
     margin-bottom: 10px; 
+    transition: transform 0.3s, background-color 0.1s;
 }
+
+article:hover{
+    background-color: rgb(238, 238, 238);
+}
+article:active{
+    background-color: rgb(221, 221, 221);
+}
+
 article .right span{
     display: flex;
     gap: 5px;

@@ -32,6 +32,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // routes
 app.use(require('./routes/routes'));
+app.get('*', function(req, res){
+  res.redirect("/");
+});
 
 // data base
 mongoose.connect(process.env.URLDB,{ useUnifiedTopology: true, useNewUrlParser: true},(err,res)=>{

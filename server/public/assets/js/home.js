@@ -15,7 +15,7 @@ fetch("/getHomeArticles", requestOptions)
         if (JSON.parse(res.json).length != 0) {
             $('#pagination-container').pagination({
                 dataSource: JSON.parse(res.json),
-                pageSize: 8,
+                pageSize: 15,
                 callback: function (data, pagination) {
                     var html = simpleTemplating(data);
                     $('#data-container').html(html);
